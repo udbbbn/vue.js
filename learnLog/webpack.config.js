@@ -34,7 +34,7 @@ module.exports = {
             }, {
                 loader: "css-loader", // css-loader用于解析
                 options: {
-                    modules: true // 启动css模块规范
+                    modules: false // 启动css模块规范
                 }
             }]
         }

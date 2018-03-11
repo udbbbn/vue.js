@@ -7,7 +7,6 @@
     <title>Examples</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <link href="" rel="stylesheet">
 </head>
 
 <body>
@@ -56,7 +55,7 @@
         <button @click="obj.foo = 'baz'">Chang it</button>
     </div>
     <div id="app9">
-        <!-- 该 html语句渲染html 用法不推荐 容易导致XSS攻击  	 -->
+        <!-- 该 html语句渲染html 用法不推荐 容易导致XSS攻击      -->
         <p v-bind:class="classObject">Using mustaches :{{ rawHtml }}</p>
         <p v-bind:class="{active: isActive, 'text-danger': hasError}"><span v-html="rawHtml"></span></p>
         <child my-message="hello!"></child>
@@ -75,6 +74,44 @@
             <input type="text" placeholder="you can't see me" key="false">
         </div>
         <button @click="boolSwitch">切换bool值</button>
+        <!-- 循环 显示过滤结果 -->
+        <li v-for="n in Numbers">{{ n }}</li>
+    </div>
+    <div id="todo-list">
+        <input v-model="newTodoText" v-on:keyup.enter="addNewTodo" placeholder="Add a todo">
+        <ul>
+            <li is="todo-item" v-for="(todo, index) in todos" v-bind:key="todo.id" v-bind:title="todo.title" v-on:remove="todos.splice(index, 1)"></li>
+        </ul>
+    </div>
+    <div id='example-3'>
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+        <label for="mike">Mike</label>
+        <br>
+        <span>Checked names: {{ checkedNames }}</span>
+    </div>
+    <div id="example-5">
+        <select v-model="selected">
+            <option disabled value="">请选择</option>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <span>Selected: {{ selected }}</span>
+    </div>
+    <div id="example2">
+        <example :prop-c="propC"></example>
+    </div>
+    <div id="demo">
+        <button v-on:click="show = !show">
+            Toggle
+        </button>
+        <transition name="fade">
+            <p v-if="show">hello</p>
+        </transition>
     </div>
 </body>
 

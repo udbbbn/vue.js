@@ -32,11 +32,13 @@ var app3 = new Vue({
 let app4 = new Vue({
     el: '#app4',
     data: {
-        todos: [
-            { text: '学习javascript' },
-            { text: '学习Vue' },
-            { text: '学习项目' }
-        ]
+        todos: [{
+            text: '学习javascript'
+        }, {
+            text: '学习Vue'
+        }, {
+            text: '学习项目'
+        }]
     }
 })
 
@@ -67,11 +69,16 @@ Vue.component('todo-item', {
 var app7 = new Vue({
     el: '#app-7',
     data: {
-        groceryList: [
-            { id: 0, text: '蔬菜' },
-            { id: 1, text: '奶酪' },
-            { id: 2, text: '随便其它什么人吃的东西' }
-        ]
+        groceryList: [{
+            id: 0,
+            text: '蔬菜'
+        }, {
+            id: 1,
+            text: '奶酪'
+        }, {
+            id: 2,
+            text: '随便其它什么人吃的东西'
+        }]
     }
 })
 
@@ -130,15 +137,151 @@ let app9 = new Vue({
 let app10 = new Vue({
     el: '#app10',
     data: {
-    	parentMsg: 'Hello Vue',
-    	bool: true
+        parentMsg: 'Hello Vue',
+        bool: true,
+        obj: {},
+        numbers: [1, 2, 3, 4, 5]
     },
     components: {
-    	'child': Child
+        'child': Child,
     },
     methods: {
-    	boolSwitch: function(){
-    		 this.bool = this.bool ? false : true
-    	}
+        boolSwitch: function() {
+            this.bool = this.bool ? false : true
+        }
+    },
+    computed: {
+        Numbers: function() {
+            return this.numbers.filter(function(number) {
+                return number % 2 === 0
+            })
+        }
+    }
+})
+
+// es6给对象新增多个属性
+Object.assign(app10.$data, {
+    age: 27,
+    test: 'ok'
+})
+
+// 推荐使用这个方法
+app10.obj = Object.assign({}, app10.obj, {
+    qwe: '这种也可以'
+})
+
+Vue.component('todo-item', {
+    template: '\
+    <li>\
+      {{ title }}\
+      <button v-on:click="$emit(\'remove\')">X</button>\
+    </li>\
+  ',
+    props: ['title']
+})
+
+new Vue({
+    el: '#todo-list',
+    data: {
+        newTodoText: '',
+        todos: [{
+            id: 1,
+            title: 'Do the dishes'
+        }, {
+            id: 2,
+            title: 'Take out the trash'
+        }, {
+            id: 3,
+            title: 'Mow the lawn'
+        }],
+        nextTodoId: 4
+    },
+    methods: {
+        addNewTodo: function() {
+            this.todos.push({
+                id: this.nextTodoId++,
+                title: this.newTodoText
+            })
+            this.newTodoText = ''
+        }
+    }
+})
+
+new Vue({
+    el: '#example-3',
+    data: {
+        checkedNames: []
+    }
+})
+
+new Vue({
+    el: '#example-5',
+    data: {
+        selected: ''
+    }
+})
+
+Vue.component('example', {
+    // props验证
+    props: {
+        // 基础类型检测(`null` 指允许任何类型)
+        propA: Number,
+        // 可能是多种类型
+        propB: [String, Number],
+        // 必传且是字符串
+        propC: {
+            type: String,
+            required: true
+        },
+        // 数值且有默认值
+        propD: {
+            type: Number,
+            default: 100
+        },
+        // 数组/对象的默认值应当由一个工厂函数返回
+        propE: {
+            type: Object,
+            default: function() {
+                return {
+                    message: 'hello'
+                }
+            }
+        },
+        // 自定义验证函数
+        propF: {
+            validator: function(value) {
+                return value > 10
+            }
+        }
+    },
+    template: `<div>{{ propC }}</div>`
+})
+
+new Vue({
+    el: '#example2',
+    data: {
+        propD: 120,
+        propC: 'test'
+    }
+})
+
+
+// const AsyncComp = () => ({
+//   // 需要加载的组件。应当是一个 Promise
+//   component: import('./MyComp.vue'),
+//   // 加载中应当渲染的组件
+//   loading: LoadingComp,
+//   // 出错时渲染的组件
+//   error: ErrorComp,
+//   // 渲染加载中组件前的等待时间。默认：200ms。
+//   delay: 200,
+//   // 最长等待时间。超出此时间则渲染错误组件。默认：Infinity
+//   timeout: 3000
+// })
+// 
+new Vue({
+    el: '#demo',
+    data: {
+        show: true
     }
 })
