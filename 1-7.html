@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1 v-if="ok">Yes</h1>
+    <h1 v-else>No</h1>
+    <section>
+    <div v-if="Math.random() > 0.5">
+        Now you see me
+    </div>
+    <div v-else>
+        Now you don't
+    </div>
+    </section>
+    <div id="sec">
+    <div v-if="type === 'A'">
+        A
+    </div>
+    <div v-else-if="type === 'B'">
+        B
+    </div>
+    <div v-else-if="type === 'C'">
+        C
+    </div>
+    <div v-else>
+        Not A/B/C
+    </div>
+    </div>
+    <main v-show="ok">
+    <template v-if="loginType === 'username'">
+        <label>Username</label>
+        <input placeholder="Enter your username" key="user">
+    </template>
+    <template v-else> <!--key代表是否会重新渲染-->
+        <label>Email</label>
+        <input placeholder="Enter your email address" key="email">
+    </template>
+        <button @click = 'toggle'>toggle</button>
+    </main>
+</body>
+</html>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el:'h1',
+        data:{
+            ok:false
+        }
+    })
+    var vm = new Vue({
+        el:'main',
+        data:{
+            loginType:'username',
+            ok:true
+        },
+        methods:{
+            toggle:function () {
+                return this.loginType = this.loginType === 'username' ? 'Email' : 'username'
+            }
+        }
+    })
+    new Vue({
+        el:'#sec',
+        data:{
+            type:'C'
+        }
+    })
+    new Vue({
+        el:'section'
+    })
+</script>
