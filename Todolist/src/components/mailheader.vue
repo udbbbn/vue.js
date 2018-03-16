@@ -1,7 +1,7 @@
 <template>
 	<header class="nav-header">
 		<img src="@/assets/img/arrow-left.png" class="icon-left">
-		<span class="header-txt"></span>
+		<span class="header-txt">{{ headerTxt }}</span>
 	</header>
 </template>
 <script>
@@ -9,6 +9,7 @@ export default {
   name: 'mailheader',
   data() {
     return {
+      'headerTxt': '收件箱'
     }
   }
 }
@@ -28,6 +29,6 @@ export default {
         width auto
         height 1.5625rem
         line-height 1.5625rem
-        font-size 0.625rem
+        font-size 0.525rem
         color #fff
 </style>

@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import mailbox from '@/view/mailbox'
 import query from '@/view/query'
-import app from '@/App'
 import index from '@/view/index'
 
 Vue.use(Router)

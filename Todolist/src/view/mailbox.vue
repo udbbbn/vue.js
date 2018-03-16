@@ -1,13 +1,22 @@
 <template>
-	<div class="mailbox"></div>
+	<div class="mailbox">
+		<mailheader></mailheader>
+		<mailcontent></mailcontent>
+	</div>
 </template>
 <script>
+import mailheader from '@/components/mailheader'
+import mailcontent from '@/components/mailcontent'
 
 export default {
-  name: '',
+  name: 'mailbox',
   data() {
     return {
     }
+  },
+  components: {
+    mailheader,
+    mailcontent
   }
 }
 </script>

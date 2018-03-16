@@ -1,7 +1,7 @@
 <template>
-	<div class="app">
-    	<nvheader></nvheader>
-    	<mailContent></mailContent>
+    <div class="app">
+      <nvheader></nvheader>
+      <mailContent></mailContent>
     </div>
 </template>
 <script>
@@ -22,5 +22,4 @@ export default {
 </script>
 
 <style rel="stylesheet" href="" lang="stylus">
-    
 </style>
