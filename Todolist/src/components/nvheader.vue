@@ -1,6 +1,6 @@
 <template>
 	<div class="nav">
-    <div class="nav-left" @click="layerDisplay">
+    <div class="nav-left" v-touch:tap="layerDisplay">
       <span class="avatar">{{avatar}}</span>
       <span class="avatar-name">{{avatarName}}</span>
     </div>
