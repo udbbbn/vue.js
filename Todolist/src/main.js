@@ -11,11 +11,21 @@ window.$ = $
 Vue.use(touch)
 Vue.config.productionTip = false
 
+Vue.filter('showQuery', function(val, type) {
+  if (type === 'query') {
+    return val
+  } else {
+    return true
+  }
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })
 

@@ -1,7 +1,7 @@
 <template>
 	<div class="mailbox">
-		<mailheader></mailheader>
-		<mailcontent></mailcontent>
+		<mailheader :headerTxt="headerTxt"></mailheader>
+		<mailcontent :iKey="key"></mailcontent>
 	</div>
 </template>
 <script>
@@ -12,11 +12,20 @@ export default {
   name: 'mailbox',
   data() {
     return {
+      headerTxt: '',
+      key: ''
     }
   },
   components: {
     mailheader,
     mailcontent
+  },
+  created: function() {
+    let query = this.$router.currentRoute.query
+    let title = query && query.title
+    let key = query && query.key
+    this.headerTxt = title
+    this.key = key
   }
 }
 </script>
@@ -25,5 +34,5 @@ export default {
     .mailbox
       width 100%
       height 100%
-      overflow hidden
+      position relative
 </style>

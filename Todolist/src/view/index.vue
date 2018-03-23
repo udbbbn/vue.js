@@ -2,11 +2,13 @@
     <div class="app">
       <nvheader></nvheader>
       <mailContent></mailContent>
+      <create></create>
     </div>
 </template>
 <script>
 import nvheader from '@/components/nvheader'
-import content from '@/components/content'
+import indexContent from '@/components/content'
+import create from '@/components/create'
 
 export default {
   name: 'index',
@@ -16,7 +18,8 @@ export default {
   },
   components: {
     nvheader,
-    'mailContent': content
+    'mailContent': indexContent,
+    create
   }
 }
 </script>
