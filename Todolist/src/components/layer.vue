@@ -31,6 +31,12 @@ export default {
 </script>
 
 <style rel="stylesheet" href="" lang="stylus">
+    rem(target, context = 64){
+      if target == 0{
+        return 0
+      }
+      return target / context + 0rem
+    }
     .layer-wrap
       position absolute
       top 0
@@ -43,35 +49,35 @@ export default {
         position absolute
         left 50%
         top 50%
-        margin-left -4.375rem
-        margin-top -2.8125rem
-        padding 0.46875rem
-        width 7.8125rem
-        height 4.6875rem
-        border-radius 0.07813rem
+        margin-left rem(-280)
+        margin-top rem(-180)
+        padding rem(30)
+        width rem(500)
+        height rem(300)
+        border-radius rem(5)
         background #fff
         .layer-title
-          font-size 0.54688rem
-          margin 0.5666rem 0
+          font-size rem(30)
+          margin rem(30) 0
         .layer-input
-          font-size 0.46875rem
-          width 7.8125rem
-          height 0.78125rem
+          font-size rem(30)
+          width rem(500)
+          height rem(50)
           border 0
           border-bottom 1px solid #ccc
           margin 0.5666rem 0
         .bottom-wrap
           position absolute
-          right 0.3125rem
-          bottom 0.3125rem
-          width 3.125rem
-          height 1.25rem
+          right rem(20)
+          bottom rem(20)
+          width rem(200)
+          height rem(80)
           button
             margin 0
             padding 0
-            width 1.5625rem
-            height 1.25rem
-            font-size 0.39063rem
+            width rem(100)
+            height rem(80)
+            font-size rem(25)
             color #14c48e
             border 0
             background #fff

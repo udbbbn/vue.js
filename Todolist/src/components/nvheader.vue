@@ -1,6 +1,6 @@
 <template>
 	<div class="nav">
-    <div class="nav-left" @click="layerDisplay">
+    <div class="nav-left" v-touch:tap="layerDisplay">
       <span class="avatar">{{avatar}}</span>
       <span class="avatar-name">{{avatarName}}</span>
     </div>
@@ -62,35 +62,41 @@ export default {
 </script>
 
 <style rel="stylesheet/stylus" lang="stylus">
+    rem(target, context = 64){
+      if target == 0{
+        return 0
+      }
+      return target / context + 0rem
+    }
     .nav
       width 100%
-      height 1.5625rem
+      height rem(100)
       background #468f88
       .nav-left
         float left
         cursor pointer
         .avatar
           float left
-          width 1.125rem
-          height 1.125rem
-          line-height 1.125rem
-          font-size 0.5rem
+          width rem(72)
+          height rem(72)
+          line-height rem(72)
+          font-size rem(32)
           text-align center
           border-radius 50%
           background #6494e1
-          margin 0.23438rem
+          margin rem(15)
           color #fff
         .avatar-name
-          font-size 0.46875rem
-          height 1.5625rem
-          line-height 1.5625rem
+          font-size rem(30)
+          height rem(100)
+          line-height rem(100)
           color #fff
       .search
         float right
-        width 0.625rem
-        height 0.625rem
-        line-height 0.625rem
-        margin 0.46875rem
+        width rem(40)
+        height rem(40)
+        line-height rem(40)
+        margin rem(30)
         cursor pointer
         img
           width 100%
