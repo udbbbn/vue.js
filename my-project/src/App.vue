@@ -2,7 +2,7 @@
   <div id="app">
     <!-- <img src="./assets/logo.png">
     <router-view/> -->
-    <v-header :seller="seller"></v-header>
+    <v-header :seller="seller" :index=""></v-header>
     <div class="tab border-1px">
       <router-link to="/goods"  class="tab-item">商品</router-link>
       <router-link to="/ratings"  class="tab-item">评论</router-link>
