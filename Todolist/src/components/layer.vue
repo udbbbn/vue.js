@@ -71,7 +71,7 @@ export default {
           right rem(20)
           bottom rem(20)
           width rem(200)
-          height rem(80)
+          height rem(75)
           button
             margin 0
             padding 0
