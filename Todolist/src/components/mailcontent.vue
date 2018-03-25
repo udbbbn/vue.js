@@ -37,6 +37,19 @@ export default {
       if (this.newTodo.trim() === '') {
         return
       }
+      let storeData = store.get('collections')
+      let flag = false
+      let key = this.$router.currentRoute.query.key
+      let _t = this
+      $.each(storeData[key].todoList, function(index, item) {
+        if(item['text'] === _t.newTodo && !flag){
+          flag = true
+        }
+      })
+      if (flag) {
+        this.newTodo = ''
+        return
+      }
       this.todoList.push({
         text: this.newTodo,
         removeStatus: false

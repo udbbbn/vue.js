@@ -1,30 +1,31 @@
 <template>
-  <div>
-  <ul class="content-wrap">
-     <router-link :to="{'path': '../mailbox', params: { userId: 0 }, query: {title: '收件箱', key: '0'}}">
-      <li class="mailbox item">
-        <i class="item-icon icon-mailbox"></i>
-        <span class="item-txt">收件箱</span>
-        <span class="item-num">{{ defaultNum }}</span>
-      </li>
-    </router-link>
-      <ul class="new-list" v-for="(item, index) in collections" :key="index">
-        <li class="list" v-if="!item.defaultList">
-          <span class="removeBtn" :class="{'active': item.removeStatus}" v-touch:tap="showDeleteLayer(index)">删除</span>
-              <router-link :to="{'path': '../mailbox', params: { userId: index + 1 }, query: {title: item.name, key: item.key}}">
-              <div class="item" :class="{'remove': item.removeStatus}"
-                v-touch:left="hideDelete(index)"
-                v-touch:right="showDelete(index)">
-                <i class="item-icon icon-newList"></i>
-                <span class="item-txt">{{ item.name }}</span>
-                <span class="item-num">{{ item.count }}</span>
-              </div>
-              </router-link>
+    <div class="c_wrap">
+    <ul class="content-wrap">
+       <router-link :to="{'path': '../mailbox', params: { userId: 0 }, query: {title: '收件箱', key: '0'}}">
+        <li class="mailbox item">
+          <i class="item-icon icon-mailbox"></i>
+          <span class="item-txt">收件箱</span>
+          <span class="item-num">{{ defaultNum }}</span>
         </li>
-      </ul>
-  </ul>
-  <deleteList :deleteStatus="deleteStatus" v-on:deleteConfirm="deleteConfirm"
-  v-on:deleteCancel="deleteCancel"></deleteList></div>
+      </router-link>
+        <ul class="new-list" v-for="(item, index) in collections" :key="index">
+          <li class="list" v-if="!item.defaultList">
+            <span class="removeBtn" :class="{'active': item.removeStatus}" v-touch:tap="showDeleteLayer(index)">删除</span>
+                <router-link :to="{'path': '../mailbox', params: { userId: index + 1 }, query: {title: item.name, key: item.key}}">
+                <div class="item" :class="{'remove': item.removeStatus}"
+                  v-touch:left="hideDelete(index)"
+                  v-touch:right="showDelete(index)">
+                  <i class="item-icon icon-newList"></i>
+                  <span class="item-txt">{{ item.name }}</span>
+                  <span class="item-num">{{ item.count }}</span>
+                </div>
+                </router-link>
+          </li>
+        </ul>
+    </ul>
+    <deleteList :deleteStatus="deleteStatus" v-on:deleteConfirm="deleteConfirm"
+    v-on:deleteCancel="deleteCancel"></deleteList>
+  </div>
 </template>
 <script>
 import store from '@/assets/js/store'
@@ -156,83 +157,87 @@ export default {
     rem(target, context = 64){
       if target == 0{
         return 0
+        }
+        return target / context + 0rem
       }
-      return target / context + 0rem
-    }
-    .content-wrap
-      width rem(640)
-      height 100%
-      .item
-        position relative
-        margin 0
-        width 100%
-        height rem(95)
-      .mailbox
-        border-bottom 1px solid #efefef
-        .item-icon
-          position absolute
-          display inline-block
-          left 0
-          top 0
-          width rem(30)
-          height rem(30)
-          margin rem(32)
-        .item-txt
-          position absolute
-          display inline-block
-          left rem(100)
-          top 0
+    .c_wrap
+      height "calc(100% - %s)" % rem(195)
+      .content-wrap
+        width rem(640)
+        height 100%
+        overflow-y auto
+        overflow-x hidden
+        .item
+          position relative
+          margin 0
+          width 100%
           height rem(95)
-          line-height rem(95)
-          font-size rem(33)
-          color #212121
-        .item-num
-          position absolute
-          right rem(24)
-          height rem(95)
-          line-height rem(95)
-          font-size rem(20)
-          color #9f9f9f
-        .icon-mailbox
-          background url('../assets/img/mailbox.png')
-          background-size 100% 100%
-      .list
-        position relative
-        border-bottom 1px solid #efefef
-        .removeBtn
-          display none
-          position absolute
-          left 0
-          top 0
-          width rem(150)
-          height rem(95)
-          line-height rem(95)
-          font-size rem(25)
-          color #fff
-          background #fe0032
-          text-align center
-          border-radius rem(5) 0 0 rem(5)
-          &.active
+        .mailbox
+          border-bottom 1px solid #efefef
+          .item-icon
+            position absolute
             display inline-block
-        .remove
-          transform translateX(rem(150))
-        .icon-newList
-          background url("../assets/img/plan.png")
-          background-size 100% 100%
-        .item-txt
-          position absolute
-          display inline-block
-          left rem(100)
-          top 0
-          height rem(95)
-          line-height rem(95)
-          font-size rem(33)
-          color #212121
-        .item-num
-          position absolute
-          right rem(24)
-          height rem(95)
-          line-height rem(95)
-          font-size rem(20)
-          color #9f9f9f
+            left 0
+            top 0
+            width rem(30)
+            height rem(30)
+            margin rem(32)
+          .item-txt
+            position absolute
+            display inline-block
+            left rem(100)
+            top 0
+            height rem(95)
+            line-height rem(95)
+            font-size rem(33)
+            color #212121
+          .item-num
+            position absolute
+            right rem(24)
+            height rem(95)
+            line-height rem(95)
+            font-size rem(20)
+            color #9f9f9f
+          .icon-mailbox
+            background url('../assets/img/mailbox.png')
+            background-size 100% 100%
+        .list
+          position relative
+          border-bottom 1px solid #efefef
+          .removeBtn
+            display none
+            position absolute
+            left 0
+            top 0
+            width rem(150)
+            height rem(95)
+            line-height rem(95)
+            font-size rem(25)
+            color #fff
+            background #fe0032
+            text-align center
+            border-radius rem(5) 0 0 rem(5)
+            &.active
+              display inline-block
+          .remove
+            transform translateX(rem(150))
+          .icon-newList
+            background url("../assets/img/plan.png")
+            background-size 100% 100%
+          .item-txt
+            position absolute
+            display inline-block
+            left rem(100)
+            top 0
+            height rem(95)
+            line-height rem(95)
+            font-size rem(33)
+            color #212121
+          .item-num
+            position absolute
+            right rem(24)
+            height rem(95)
+            line-height rem(95)
+            font-size rem(20)
+            color #9f9f9f
 </style>

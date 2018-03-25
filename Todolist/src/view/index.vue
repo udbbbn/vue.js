@@ -31,4 +31,6 @@ export default {
 </script>
 
 <style rel="stylesheet" href="" lang="stylus">
+    .app
+      height 100%
 </style>

@@ -41,6 +41,13 @@ export default {
     },
     addDefaultList: function(val) {
       let storeData = store.get('collections')
+      let flag = false
+      $.each(storeData, function(index, item) {
+        if(item['name'].trim() === val.text.trim() && !flag){
+          flag = true
+        }
+      })
+      if (flag) {return}
       this.collections.push({
         'key': storeData.length,
         'name': val.text,
