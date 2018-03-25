@@ -34,6 +34,9 @@ export default {
       store.set('collections', this.collections)
     },
     add: function() {
+      if (this.newTodo.trim() === '') {
+        return
+      }
       this.todoList.push({
         text: this.newTodo,
         removeStatus: false

@@ -1,4 +1,5 @@
 <template>
+  <div>
   <ul class="content-wrap">
      <router-link :to="{'path': '../mailbox', params: { userId: 0 }, query: {title: '收件箱', key: '0'}}">
       <li class="mailbox item">
@@ -9,26 +10,30 @@
     </router-link>
       <ul class="new-list" v-for="(item, index) in collections" :key="index">
         <li class="list" v-if="!item.defaultList">
-          <span class="removeBtn" :class="{'active': item.removeStatus}" v-touch:tap.stop="showDeleteLayer(index)">删除</span>
+          <span class="removeBtn" :class="{'active': item.removeStatus}" v-touch:tap="showDeleteLayer(index)">删除</span>
+              <router-link :to="{'path': '../mailbox', params: { userId: index + 1 }, query: {title: item.name, key: item.key}}">
               <div class="item" :class="{'remove': item.removeStatus}"
                 v-touch:left="hideDelete(index)"
                 v-touch:right="showDelete(index)">
-                <router-link :to="{'path': '../mailbox', params: { userId: index + 1 }, query: {title: item.name, key: item.key}}">
                 <i class="item-icon icon-newList"></i>
                 <span class="item-txt">{{ item.name }}</span>
                 <span class="item-num">{{ item.count }}</span>
-                </router-link>
               </div>
+              </router-link>
         </li>
       </ul>
   </ul>
+  <deleteList :deleteStatus="deleteStatus" v-on:deleteConfirm="deleteConfirm"
+  v-on:deleteCancel="deleteCancel"></deleteList></div>
 </template>
 <script>
 import store from '@/assets/js/store'
 import $ from 'webpack-zepto'
+import deleteList from '@/components/deleteList'
 
 export default {
   name: 'indexContent',
+  props: ['upMailListFlag'],
   data() {
     return {
       editStatus: false,
@@ -43,6 +48,9 @@ export default {
       collections: [],
       defaultList: ''
     }
+  },
+  components: {
+    deleteList
   },
   methods: {
     addList: function() {
@@ -109,8 +117,27 @@ export default {
       })
     },
     showDeleteLayer: function(index) {
-      this.deleteStatus = true
-      this.deleteIndex = index
+      return () => {
+        this.deleteStatus = true
+        this.deleteIndex = index
+      }
+    },
+    deleteConfirm: function() {
+      this.deleteStatus = false
+      this.removeListItem()
+    },
+    deleteCancel: function() {
+      this.deleteStatus = false
+    },
+    removeListItem: function() {
+      let _t = this
+      let _index = this.deleteIndex
+      $.each(_t.collections, function(index, item) {
+        if (_index === index) {
+          _t.collections.splice(index, 1)[0]
+        }
+      })
+      store.set('collections', this.collections)
     }
   },
   created: function() {
@@ -118,8 +145,8 @@ export default {
     this.initNum()
   },
   watch: {
-    'collections': function() {
-
+    'upMailListFlag': function() {
+      this.initCollections()
     }
   }
 }

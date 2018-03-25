@@ -34,6 +34,7 @@ export default {
         return
       }
       this.addDefaultList(val)
+      this.$emit('updateMailList')
     },
     updateLayerDisplay: function() {
       this.layerShow = false

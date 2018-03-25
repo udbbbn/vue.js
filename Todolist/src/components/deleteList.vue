@@ -1,30 +1,29 @@
 <template>
-	<div class="layer-wrap" v-show="layerShow">
+	<div class="layer-wrap" v-show="deleteStatus">
 		<div class="layer-content">
-			<h3 class="layer-title">{{ layerMessage }}</h3>
-			<input class="layer-input" type="text" :placeholder="layerMessage" v-model="newVal" />
-			<div class="bottom-wrap">
+			<h3 class="layer-title">清单名称</h3>
+			<div class="txt-content">您确定要删除该清单？</div>
+			<div class="button-wrap">
 				<button class="cancel" v-touch:tap.prevent="cancel">取消</button>
-				<button class="commit" v-touch:tap.prevent="commit">确认</button>
+				<button class="confirm" v-touch:tap.prevent="confirm">确认</button>
 			</div>
 		</div>
 	</div>
 </template>
 <script>
 export default {
-  name: 'layer',
-  props: ['layerShow', 'layerMessage'],
+  name: 'deleteList',
+  props: ['deleteStatus'],
   data() {
     return {
-      newVal: ''
     }
   },
   methods: {
-    commit: function() {
-      this.$emit('updateAvatar', { text: this.newVal, layerShow: false })
-    },
     cancel: function() {
-      this.$emit('updateLayerDisplay')
+      this.$emit('deleteCancel')
+    },
+    confirm: function() {
+      this.$emit('deleteConfirm')
     }
   }
 }
@@ -43,36 +42,31 @@ export default {
       left 0
       width 100%
       height 100%
-      background-color rgba(0, 0, 0, .5)
-      z-index 100
+      background rgba(0, 0, 0, .5)
       .layer-content
         position absolute
         left 50%
         top 50%
         margin-left rem(-280)
-        margin-top rem(-180)
-        padding rem(30)
+        margin-right rem(-130)
         width rem(500)
-        height rem(300)
+        height rem(230)
         border-radius rem(5)
         background #fff
         .layer-title
+          margin-top 0
+          margin-bottom rem(40)
+          font-size rem(35)
+        .txt-content
           font-size rem(30)
-          margin rem(30) 0
-        .layer-input
-          font-size rem(30)
-          width rem(500)
-          height rem(50)
-          border 0
-          border-bottom 1px solid #ccc
-          margin 0.5666rem 0
-        .bottom-wrap
+        .button-wrap
           position absolute
           right rem(20)
           bottom rem(20)
           width rem(200)
           height rem(80)
           button
+            display inline-block
             margin 0
             padding 0
             width rem(100)
@@ -81,8 +75,8 @@ export default {
             color #14c48e
             border 0
             background #fff
-          .cancel
+          .confirm
             float right
-          .commit
+          .cancel
             float right
 </style>
