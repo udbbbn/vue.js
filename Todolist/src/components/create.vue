@@ -10,6 +10,7 @@
 <script>
 import layer from '@/components/layer'
 import store from '@/assets/js/store'
+import $ from 'webpack-zepto'
 
 export default {
   name: 'create',
@@ -43,11 +44,13 @@ export default {
       let storeData = store.get('collections')
       let flag = false
       $.each(storeData, function(index, item) {
-        if(item['name'].trim() === val.text.trim() && !flag){
+        if (item['name'].trim() === val.text.trim() && !flag) {
           flag = true
         }
       })
-      if (flag) {return}
+      if (flag) {
+        return
+      }
       this.collections.push({
         'key': storeData.length,
         'name': val.text,
