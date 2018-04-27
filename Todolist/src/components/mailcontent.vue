@@ -42,7 +42,7 @@ export default {
       let key = this.$router.currentRoute.query.key
       let _t = this
       $.each(storeData[key].todoList, function(index, item) {
-        if(item['text'] === _t.newTodo && !flag){
+        if (item['text'] === _t.newTodo && !flag) {
           flag = true
         }
       })
