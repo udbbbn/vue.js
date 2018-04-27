@@ -2,6 +2,7 @@
 
 > 断点续传 上传控件
 
+控件后台文件在 **backend** 文件夹内
 ## Build Setup
 
 ``` bash
