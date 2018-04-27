@@ -1,6 +1,6 @@
 # upload
 
-> 断点续传 上传空间
+> 断点续传 上传控件
 
 ## Build Setup
 
