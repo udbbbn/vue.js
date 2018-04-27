@@ -109,10 +109,71 @@
         <button v-on:click="show = !show">
             Toggle
         </button>
-        <transition name="fade">
+        <transition name="fade" :duration="{enter:900, leave: 800}">
             <p v-if="show">hello</p>
         </transition>
+        <!-- 组件间的循环引用 暂未实现 -->
+        <!-- <p>
+            <span>{{folder.name}}</span>
+            <tree-folder-contents :children="folder.children"></tree-folder-contents>
+        </p> -->
+        <button @click="show1 = !show1">
+            Toggle render
+        </button>
+        <transition name="slide-fade" :duration="1000">
+            <p v-if="show1">hello</p>
+        </transition>
+        <!-- 动画 JavaScript 钩子 -->
+        <button @click="show3 = !show3">
+            Toggle
+        </button>
+        <transition v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave" v-bind:css="false">
+            <p v-if="show3">
+                Demo
+            </p>
+        </transition>
+        <transition>
+            <!-- 三目运算符 -->
+            <button v-bind:key="isEditing">
+                {{ isEditing ? 'Save' : 'Edit' }}
+            </button>
+
+        </transition>
+        <transition>
+            <button :key="docState" @click="switchStatus" mode="out-in" >
+                {{ buttonMessage }}
+            </button>
+        </transition>
     </div>
+
+    <div id="staggered-list-demo">
+        <input v-model="query" />
+        <transition-group
+            name="staggered-fade"
+            tag="ul"
+            :css="false"
+            @before-enter="beforeEnter"
+            @enter="enter"
+            @leave="leave"
+        >
+        <li v-for="(item, index) in computedList"
+            :key="item.msg"
+            :data-index="index"> {{ item.msg }}</li>
+        </transition-group>
+        <!-- 函数组件 暂未使用 -->
+        <!-- <my-special-transition></my-special-transition> -->
+    </div>
+
+   <!--  <div id="dynamic-fade-demo" class="demo">
+        Fade In: <input type="range" v-model="fadeInDuration" min="0" :max="maxFadeDuration"/>
+        Fade Out: <input type="range" v-model="fadeOutDuration" min="0" :max="maxFadeDuration"/>
+        <transition :css="false" @before-enter="beforeEnter" @enter="enter" @leave="leave">
+            <p v-if="show">hello</p>
+        </transition>
+        <button v-if="stop" @click="stop = false; show= false"></button>
+    </div> -->
 </body>
 
 </html>
+<!-- 动画 JavaScript 钩子 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>

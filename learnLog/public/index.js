@@ -279,9 +279,174 @@ new Vue({
 //   timeout: 3000
 // })
 // 
+
+// 组件间的循环引用 暂未实现
+Vue.component('tree-folder-contents', {
+    template: `
+    <ul>
+      <li v-for="folder in folders">
+        <tree-folder v-bind:folder="folder"></tree-folder>
+      </li>
+    </ul>
+    `,
+    props: ['folder'],
+    beforeCreate: function() {
+        // this.$options.components.TreeFolderContents = require('./tree-folder-contents.vue').default
+    }
+})
+
 new Vue({
     el: '#demo',
     data: {
-        show: true
+        show: true,
+        show1: true,
+        show3: true,
+        isEditing: true,
+        docState: 'saved'
+        // 组件间的循环引用 暂未实现
+        // folders: [{
+        //         name: 'folder1',
+        //         children: [{
+        //             name: 'folder1 - folder1',
+        //             children: [{
+        //                 name: 'folder1 - folder1 - folder1'
+        //             }]
+        //         }, {
+        //             name: 'folder1 - folder2',
+        //             children: [{
+        //                 name: 'folder1 - folder2 - folder1'
+        //             }, {
+        //                 name: 'folder1 - folder2 - folder2'
+        //             }]
+        //         }]
+        //     },
+        //     {
+        //         name: 'folder 2',
+        //         children: [{
+        //             name: 'folder2 - folder1',
+        //             children: [{
+        //                 name: 'folder2 - folder1 - folder1'
+        //             }]
+        //         }, {
+        //             name: 'folder2 - folder2',
+        //             children: [{
+        //                 name: 'folder2-content1'
+        //             }]
+        //         }]
+        //     },
+        //     {
+        //         name: 'folder 3',
+        //         children: [{
+        //             name: 'folder3 - folder1',
+        //             children: [{
+        //                 name: 'folder3 - folder1 - folder1'
+        //             }]
+        //         }, {
+        //             name: 'folder3 - folder2',
+        //             children: [{
+        //                 name: 'folder3-content1'
+        //             }]
+        //         }]
+        //     }
+        // ],
+    },
+    computed: {
+        buttonMessage: function() {
+            switch (this.docState) {
+                case 'saved':
+                    return 'Edit'
+                case 'edited':
+                    return 'Save'
+                case 'editing':
+                    return 'Cancel'
+            }
+        }
+    },
+    // 动画 JavaScript 钩子
+    methods: {
+        beforeEnter: function(el) {
+            el.style.opacity = 0
+            el.style.transformOrigin = 'left'
+        },
+        enter: function(el, done) {
+            Velocity(el, { opacity: 1, fontSize: '1.4em' }, { duration: 300 })
+            Velocity(el, { fontSize: '1em' }, { complete: done })
+        },
+        leave: function(el, done) {
+            Velocity(el, { translateX: '15px', rotateZ: '50deg' }, { duration: 600 })
+            Velocity(el, { rotateZ: '100deg' }, { loop: 2 })
+            Velocity(el, {
+                rotateZ: '45deg',
+                translateY: '30px',
+                translateX: '30px',
+                opacity: 0
+            }, { complete: done })
+        },
+        switchStatus: function() {
+            this.docState = this.docState === 'saved' ? 'edited' : 'editing'
+        }
+
+    }
+})
+
+// 函数组件 
+Vue.component("my-special-transition", {
+    functional: true,
+    render: function(createElement, context) {
+        var data = {
+            props: {
+                name: 'very-special-transition',
+                mode: 'out-in'
+            },
+            on: {
+                beforeEnter: function(el) {
+
+                },
+                afterEnter: function(el) {
+
+                }
+            }
+        }
+        return createElement('transition', data, context.children)
+    }
+})
+
+new Vue({
+    el: "#staggered-list-demo",
+    data: {
+        query: '',
+        list: [
+            { msg: 'Bruce Lee' },
+            { msg: 'Jackie Chan' },
+            { msg: 'Chuck Norris' },
+            { msg: 'Jet Li' },
+            { msg: 'Kung Fury' }
+        ]
+    },
+    computed: {
+        computedList: function() {
+            var vm = this
+            return this.list.filter(function(item) {
+                return item.msg.toLowerCase().indexOf(vm.query.toLowerCase()) !== -1
+            })
+        }
+    },
+    methods: {
+        beforeEnter: function(el) {
+            el.style.opacity = 0
+            el.style.height = 0
+        },
+        enter: function(el, done) {
+            var delay = el.dataset.index * 150
+            setTimeout(function() {
+                Velocity(el, { opacity: 1, height: '1.6em' }, { complete: done }, delay)
+            })
+        },
+        leave: function(el, done) {
+            var delay = el.dataset.index * 150
+            setTimeout(function(){
+                Velocity(el, {opacity:0, height:0}, {complete: done}, delay)
+            })
+        }
     }
 })
