@@ -2,6 +2,8 @@
 
 > todolist 
 
+![](https://raw.githubusercontent.com/udbbbn/Img/master/vue_todolist.gif)
+
 ## Build Setup
 
 ``` bash
