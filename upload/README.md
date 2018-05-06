@@ -3,6 +3,15 @@
 > 断点续传 上传控件
 
 控件后台文件在 **backend** 文件夹内
+
+### 普通文件上传
+
+![](https://raw.githubusercontent.com/udbbbn/Img/master/vue_uploadFile.gif)
+
+### 断点续传
+
+![](https://raw.githubusercontent.com/udbbbn/Img/master/vue_uploadResuming.gif)
+
 ## Build Setup
 
 ``` bash
