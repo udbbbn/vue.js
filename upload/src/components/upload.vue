@@ -19,8 +19,8 @@
     <label @click="uploadFile">上传</label>
     <br>
   </form>
-  <p class="upload-tip" v-if="uptValue.type === 1">{{uptValue.msg}}</p>
-  <p class="upload-tip" v-if="uptValue.type === -1">{{uptValue.msg}}</p>
+  <p class="upload-tip" v-if="uptValue.type === 1" v-html="uptValue.msg"></p>
+  <p class="upload-tip" v-if="uptValue.type === -1" v-html="uptValue.msg"></p>
 </div>
 </template>
 
@@ -118,6 +118,7 @@ export default {
     display flex
     justify-content center
     text-align center
+    min-height 300px
     label
       width 60px
       height 30px
