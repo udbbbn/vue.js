@@ -1,0 +1,9 @@
+{
+  "name": "socketIo",
+  "version": "1.0",
+  "dependencies": {
+    "koa": "^2.5.1",
+    "socket.io": "^2.1.0",
+    "util": "^0.10.3"
+  }
+}
