@@ -35,7 +35,7 @@ let chat = io.of('/chat').on('connection', (socket) => {
         }
         let user = {
             name: data.userId,
-            avatar: 'http://static.galileo.xiaojukeji.com/static/tms/seller_avatar_256px.jpg',
+            avatar: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528184091&di=7bcb42fa3f4807b048e25f2f1f3dde09&imgtype=jpg&er=1&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fblog%2F201308%2F01%2F20130801113450_nBEQF.jpeg',
             sign: '默认签名'
         }
         systemUser.push(system)

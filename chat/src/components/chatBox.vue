@@ -1,6 +1,6 @@
 <template>
   <div class="chatBox">
-    <chatList :userName="userName" :userList="userList" v-on:updateShowIndex="updateShowIndex"></chatList>
+    <chatList :userName="userName" :userList="userList" v-on:updateShowIndex="updateShowIndex" :newTip="newTip"></chatList>
     <chatRoom :allList="allList" :socket="socket" :userList="userList" :showIndex="showIndex" :userFlag="userFlag"></chatRoom>
     <login v-if="loginShow" v-on:loginshow="loginshow"></login>
   </div>
@@ -23,7 +23,8 @@ export default {
       userList: [],
       socket: '',
       showIndex: 0,
-      userFlag: ''
+      userFlag: '',
+      newTip: 0
     }
   },
   components: {
@@ -55,6 +56,7 @@ export default {
       this.socket.on('message', (data) => {
         console.log(`接收到消息: ${data}`)
         this.$set(this.allList, this.allList.length, ['rece', JSON.parse(data), +new Date()])
+        this.newTip = JSON.parse(data).sender
       })
       this.socket.on('disconnect', () => {
         // this.socket.emit('message', '离开房间')

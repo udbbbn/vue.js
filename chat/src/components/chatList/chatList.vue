@@ -13,6 +13,7 @@
           <div class="content">
             <div class="name">{{item[0].name}}</div>
             <div class="sign">{{item[0].sign}}</div>
+            <div class="tip" ref="userList">有新消息</div>
           </div>
         </li>
       </ul>
@@ -25,19 +26,21 @@ export default {
     return {
       name: '无名用户',
       sign: '这是一个懒惰的人的签名',
-      List: []
+      List: [],
+      tipDisplay: 'block'
     }
   },
   components: {
 
   },
-  props: ['userName', 'userList'],
+  props: ['userName', 'userList', 'newTip'],
   methods: {
     setName: function() {
       this.name = this.$cookies.get('acount')
     },
     updateShowIndex: function(val, num) {
       this.$emit('updateShowIndex', val, num)
+      this.$refs.userList[num].style.display = 'none'
     }
   },
   mounted() {
@@ -49,6 +52,14 @@ export default {
     },
     'userList': function() {
       this.List = Object.assign([], this.userList)
+    },
+    'newTip': function(val) {
+      let context = this
+      this.List.forEach((item, index) => {
+        if (item[0].name === context.newTip) {
+          context.$refs.userList[index].style.display = this.tipDisplay
+        }
+      })
     }
   }
 }
@@ -107,6 +118,7 @@ export default {
           width auto
           padding 0 0 0 10px
           flex 1
+          position relative
           .name
             font-size 15px
             margin-bottom 5px
@@ -118,4 +130,10 @@ export default {
             display -webkit-box
             -webkit-line-clamp 1
             -webkit-box-orient vertical
+          .tip
+            position absolute
+            right 5px
+            top 10px
+            color #7078d4
+            display none
 </style>
