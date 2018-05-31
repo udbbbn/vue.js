@@ -57,7 +57,7 @@ export default {
       let context = this
       this.List.forEach((item, index) => {
         if (item[0].name === context.newTip) {
-          context.$refs.userList[index].style.display = this.tipDisplay
+          context.$refs.userList[index].style.display = context.tipDisplay
         }
       })
     }
@@ -73,6 +73,9 @@ export default {
       vertical-align top
       background-color #e0dede
       font-size 14px
+      border 1px solid #cacaca
+      border-right 0
+      box-sizing border-box
       .header
         width 90%
         height 100px
@@ -101,6 +104,7 @@ export default {
             -webkit-box-orient vertical
       .userList
         width 100%
+        overflow-y auto
         & > li
           width 90%
           padding 0 5%

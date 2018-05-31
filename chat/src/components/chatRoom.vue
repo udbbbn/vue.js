@@ -5,7 +5,7 @@
             <news :allList="allList" :userFlag="userFlag"></news>
         </div>
         <div class="sendBox">
-            <div class="sendInput" contenteditable="true" ref="inputBox" @keyup.enter="send">
+            <div class="sendInput" contenteditable="true" ref="inputBox" @keyup.enter="send" @keyup="GetChinese">
             </div>
             <div class="inputBox" @click="send">发 送</div>
         </div>
@@ -40,6 +40,15 @@ export default {
       this.$set(this.allList, this.allList.length, ['send', sendSetting, +new Date()])
       this.socket.emit('message', JSON.stringify(sendSetting))
       this.$refs.inputBox[this.showIndex].innerText = ''
+    },
+    GetChinese: function() {
+      let strValue = this.$refs.inputBox[this.showIndex].innerHTML.trim()
+      if (strValue !== null && strValue !== '') {
+        let reg = />(([\w\d\u4e00-\u9fa5])+)</g
+        if (reg.test(strValue)) {
+          this.$refs.inputBox[this.showIndex].innerHTML = RegExp.$1
+        }
+      }
     }
   },
   computed: {
