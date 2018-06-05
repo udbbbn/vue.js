@@ -1,10 +1,88 @@
-// const util = require('util');
-
 const Koa = require('koa');
 const app = new Koa();
+const cors = require('koa2-cors')
+const koaBody = require('koa-body')
+const route = require('koa-route')
 
 const fs =  require('fs');
 let io = require('socket.io');
+
+// 微信通信方案
+const obj = {
+    user: [],
+    message: []
+}; // 消息对象
+app.use(cors()); // 跨域
+app.use(koaBody()); // 获取参数
+app.use(route.post('/polling', async (ctx) => {
+    let maxTimeOut = 25000;
+    let oneTimeOut = 800;
+    let timeRecording = 0;
+    let acount = ctx.request.body.acount;
+
+    let timeOutHandler = await new Promise((resolve, reject) => {
+        let interval = setInterval((() => {
+            timeRecording += oneTimeOut
+            if (timeRecording > maxTimeOut) {
+                    resolve(false)
+                clearInterval(interval)
+                } else {
+                    let newData = selectMessage(acount)
+                    if (newData) {
+                        clearInterval(interval)
+                        resolve(JSON.stringify(newData))
+                    }
+                }
+        }), oneTimeOut)
+    })
+
+    if (!timeOutHandler) {
+        let data = selectMessage(acount)
+        if (data === undefined) {
+            ctx.body = '暂无消息'
+        } else {
+            ctx.body = JSON.stringify(data)
+        }
+    } else {
+        ctx.body = timeOutHandler
+    }
+}))
+
+function selectMessage(acount) {
+    for (let i of obj.message) {
+        if (i.receiver === acount && i.state === 0) {
+            i.state = 1
+            return i
+        }
+    }
+}
+
+app.use(route.post('/login', function (ctx) {
+    let user = {
+        name: ctx.request.body.acount,
+        avatar: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528184091&di=7bcb42fa3f4807b048e25f2f1f3dde09&imgtype=jpg&er=1&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fblog%2F201308%2F01%2F20130801113450_nBEQF.jpeg',
+        sign: '默认签名'
+    }
+    obj.user[obj.user.length] = user
+    ctx.body = JSON.stringify(obj.user)
+}))
+
+app.use(route.post('/leave', function (ctx) {
+    let acount = ctx.request.body.acount
+    obj.user.forEach((item, index) => {
+        if (item.name === acount) {
+            obj.user.splice(index, 1)
+        }
+    })
+    ctx.body = JSON.stringify(obj.user)
+}))
+
+app.use(route.post('/send', function(ctx) {
+    let sendSetting = JSON.parse(ctx.request.body.sendSetting)
+    obj.message.push(sendSetting)
+    ctx.body = '发送成功'
+}))
+
 
 let server = app.use(async ctx => {
     // ctx.response.type = 'html';
@@ -12,6 +90,8 @@ let server = app.use(async ctx => {
 }).listen(8033);
 console.log(`server start at http://localhost:8033`)
 
+
+// socket方案
 io = io.listen(server);
 
 const allUser = []; // 用于返回前台用户数组
@@ -61,9 +141,3 @@ let chat = io.of('/chat').on('connection', (socket) => {
     })
 })
 
-let news = io.of('/news').on('connection', (socket) => {
-    socket.emit('item', { news: 'item' });
-    socket.on('message', (data) => {
-        console.log(`来自news聊天房的消息：${data}`)
-    })
-})
