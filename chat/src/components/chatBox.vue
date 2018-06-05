@@ -1,5 +1,6 @@
 <template>
   <div class="chatBox">
+    <router-link to="/polling" class="">button</router-link>
     <chatList :userName="userName" :userList="userList" v-on:updateShowIndex="updateShowIndex" :newTip="newTip"></chatList>
     <chatRoom :allList="allList" :socket="socket" :userList="userList" :showIndex="showIndex" :userFlag="userFlag"></chatRoom>
     <login v-if="loginShow" v-on:loginshow="loginshow"></login>
@@ -64,7 +65,6 @@ export default {
       this.socket.on('userLogin', (data) => {
         data = JSON.parse(data)
         console.log(data)
-        // this.addDBData(data)
         this.initUserList(data)
       })
       this.socket.on('userLeave', (data) => {
@@ -91,18 +91,6 @@ export default {
       this.showIndex = num
       this.userFlag = val
     },
-    addDBData: function(data) {
-      // 将用户连接情况写入数据库
-      // const DBopenRequest = window.indexedDB.open('chat', 1)
-      // this.db = DBopenRequest
-      // let transaction = this.db.transaction('user', 'readwrite')
-      // let objectStore = transaction.objectStore('user')
-      // objectStore.add({
-      //   'avatar': data.avatar,
-      //   'name': data.userId,
-      //   'sign': data.sign
-      // })
-    },
     initUserList: function(data) {
       let name = this.userName
       this.userList = Object.assign([])
@@ -119,7 +107,6 @@ export default {
   },
   mounted: function() {
     this.isLogin()
-    // this.initDBoperat()
   }
 }
 </script>

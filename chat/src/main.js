@@ -5,9 +5,11 @@ import App from './App'
 import router from './router'
 import store from './store/store'
 import vueCookies from 'vue-cookies'
+import axios from 'axios'
 
 Vue.config.productionTip = false
 Vue.use(vueCookies)
+Vue.prototype.$ajax = axios
 
 /* eslint-disable no-new */
 new Vue({
