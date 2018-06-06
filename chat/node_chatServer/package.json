@@ -3,7 +3,9 @@
   "version": "1.0",
   "dependencies": {
     "koa": "^2.5.1",
-    "socket.io": "^2.1.0",
-    "util": "^0.10.3"
+    "koa-body": "^2.6.0",
+    "koa-route": "^3.2.0",
+    "koa2-cors": "^2.0.5",
+    "socket.io": "^2.1.0"
   }
 }
