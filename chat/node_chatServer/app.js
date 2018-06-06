@@ -25,7 +25,7 @@ app.use(route.post('/polling', async (ctx) => {
             timeRecording += oneTimeOut
             if (timeRecording > maxTimeOut) {
                     resolve(false)
-                clearInterval(interval)
+                    clearInterval(interval)
                 } else {
                     let newData = selectMessage(acount)
                     if (newData) {
