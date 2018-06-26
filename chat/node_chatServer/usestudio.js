@@ -1,5 +1,10 @@
 
 var http = require("http");
+var redis = require('redis');
+var RDS_PORT = 6379
+var RDS_HOST = '127.0.0.1'
+var RDS_OPTS = {}
+var client = redis.createClient(RDS_PORT, RDS_HOST, RDS_OPTS)
 
 var user = [] // 用户数组
 
@@ -7,9 +12,9 @@ var userRes = { // 用户response对象
 
 }
 
-var message = { // 离线消息对象
-    
-}
+client.on('ready', () => {
+    console.log('ready')
+})
 
 var server = http.createServer(function (req, res) {
     // 发送消息处理函数
@@ -21,14 +26,38 @@ var server = http.createServer(function (req, res) {
         });
         req.on('end', function () {
             post = JSON.parse(post);
-            var result = userRes[post.rece].end(JSON.stringify(post))
-            if (!result) {
-                // 若为false 证明连接失效 加入离线消息
-                if (message[post.rece] === undefined) {
-                    message[post.rece] = []
+            client.get(post.rece, function (err, val) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    var result = userRes[post.rece].end(JSON.stringify(post))
+                    // 第一条消息 初始化
+                    if (val === null) {
+                        var userObj = {}
+                        userObj['msg'] = []
+                        userObj['unread'] = []
+                        if (result) {
+                            // 已读消息
+                            userObj['msg'].push(post)
+                        } else {
+                            // 若为false 证明连接失效 加入离线消息
+                            userObj['unread'].push(post)
+                        }
+                    } else {
+                        // 已经初始化过情况
+                        var userObj = JSON.parse(val)
+                        if (result) {
+                            // 已读消息
+                            userObj['msg'].push(post)
+                        } else {
+                            // 若为false 证明连接失效 加入离线消息
+                            userObj['unread'].push(post)
+                        }
+                    }
+                    client.set(post.rece, JSON.stringify(userObj), redis.print)
                 }
-                message[post.rece].push(post)
-            }
+            })
+
         });
         // 获取未读消息
     } else if (req.url === "/getUnread" && req.method === "POST") {
@@ -40,12 +69,35 @@ var server = http.createServer(function (req, res) {
         });
         req.on('end', function () {
             // 若有离线消息 直接发送
-            if (message[post] !== undefined) {
-                res.end(JSON.stringify(message[post]))
-                delete message[post]
-            } else {
-                res.end(0)
-            }
+            client.get(post, function (err, val) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    // 若redis存有该用户数据
+                    if (val !== null) {
+                        // 获取用户数据
+                        var userObj = JSON.parse(val)
+                        // 若有未读消息
+                        if (userObj.unread.length !== 0) {
+                            // 返回未读消息于前台
+                            res.end(JSON.stringify(userObj.unread))
+                            // 将未读消息添加到已读消息
+                            userObj.msg = userObj.msg.concat(userObj.unread)
+                            // 清空未读消息
+                            userObj.unread = []
+                            // 设置用户数据
+                            client.set(post, JSON.stringify(userObj), redis.print)
+                        } else {
+                            res.end(0)
+                            return
+                        }
+                    } else {
+                        res.end(0)
+                    }
+                }
+            })
+
+
         });
         // 轮询
     } else if (req.url === "/polling" && req.method === "POST") {
