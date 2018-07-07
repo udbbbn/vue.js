@@ -4,8 +4,8 @@
 			<h3 class="layer-title">{{ layerMessage }}</h3>
 			<input class="layer-input" type="text" :placeholder="layerMessage" v-model="newVal" />
 			<div class="bottom-wrap">
-				<button class="cancel" v-touch:tap="cancel">取消</button>
-				<button class="commit" v-touch:tap="commit">确认</button>
+				<button class="cancel" v-touch:tap.prevent="cancel">取消</button>
+				<button class="commit" v-touch:tap.prevent="commit">确认</button>
 			</div>
 		</div>
 	</div>
@@ -71,7 +71,7 @@ export default {
           right rem(20)
           bottom rem(20)
           width rem(200)
-          height rem(80)
+          height rem(75)
           button
             margin 0
             padding 0

@@ -1,8 +1,8 @@
 <template>
     <div class="app">
       <nvheader></nvheader>
-      <mailContent></mailContent>
-      <create></create>
+      <mailContent :upMailListFlag="upMailListFlag"></mailContent>
+      <create v-on:updateMailList="updateMailList"></create>
     </div>
 </template>
 <script>
@@ -14,15 +14,23 @@ export default {
   name: 'index',
   data() {
     return {
+      upMailListFlag: ''
     }
   },
   components: {
     nvheader,
     'mailContent': indexContent,
     create
+  },
+  methods: {
+    updateMailList: function() {
+      this.upMailListFlag++
+    }
   }
 }
 </script>
 
 <style rel="stylesheet" href="" lang="stylus">
+    .app
+      height 100%
 </style>

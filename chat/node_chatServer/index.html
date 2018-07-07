@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script>
+    let chat = io.connect('http://localhost:8033/chat'),
+        news = io.connect('http://localhost:8033/news');
+    chat.on('connect', () => {
+        chat.emit('message', 'hi!');
+    })
+    chat.on('message', (data) => {
+        console.log(data)
+    })
+    news.on('connect', () => {
+        news.emit('message', 'woot');
+    })
+    chat.on('disconnect', () => {
+        chat.emit('message', '离开房间');
+    })
+    news.on('disconnect', () => {
+        news.emit('message', '离开房间');
+    })
+</script>

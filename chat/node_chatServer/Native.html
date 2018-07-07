@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script>
+        function post(url, callback) {
+            var xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.open("get", url, true);
+            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4) {
+                    if (callback) {
+                        callback(xmlhttp.status + xmlhttp.responseText);
+                    }
+                }
+            };
+            xmlhttp.send();
+        }
+        setInterval(function() {
+            
+        })
+        function ajaxpost() {
+            post('http://localhost:1347', function (val) {
+                console.log(val)
+                ajaxpost()
+            })
+        }
+    ajaxpost()
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
